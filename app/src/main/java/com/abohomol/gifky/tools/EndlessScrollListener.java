@@ -1,7 +1,7 @@
 package com.abohomol.gifky.tools;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
@@ -16,10 +16,10 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
      */
     private static final int visibleThreshold = 10;
 
-    private final LinearLayoutManager mLinearLayoutManager;
+    private final StaggeredGridLayoutManager layoutManager;
 
-    public EndlessScrollListener(LinearLayoutManager linearLayoutManager) {
-        this.mLinearLayoutManager = linearLayoutManager;
+    public EndlessScrollListener(StaggeredGridLayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
     }
 
     public void reset() {
@@ -32,8 +32,9 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         super.onScrolled(recyclerView, dx, dy);
 
         int visibleItemCount = recyclerView.getChildCount();
-        int totalItemCount = mLinearLayoutManager.getItemCount();
-        int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+        int totalItemCount = layoutManager.getItemCount();
+        int[] firstVisibleItemPositions = new int[3];
+        int firstVisibleItem = layoutManager.findFirstVisibleItemPositions(firstVisibleItemPositions)[0];
 
         if (isLoading) {
             if (totalItemCount > previousTotal) {

@@ -2,8 +2,8 @@ package com.abohomol.gifky;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -71,12 +71,12 @@ public class GifListActivity extends Activity implements GifListView {
 
     private void initGifList(ViewGroup parent) {
         RecyclerView gifList = new RecyclerView(this);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        gifList.setLayoutManager(llm);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        gifList.setLayoutManager(layoutManager);
         gifListAdapter = new GifListAdapter(this);
         gifList.setAdapter(gifListAdapter);
         gifList.setLayoutParams(new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-        scrollListener = new EndlessScrollListener(llm) {
+        scrollListener = new EndlessScrollListener(layoutManager) {
             @Override public void onLoadMore() {
                 int itemCount = gifListAdapter.getItemCount();
                 loadMoreItems.onNext(itemCount);
