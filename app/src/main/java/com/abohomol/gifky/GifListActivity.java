@@ -26,11 +26,13 @@ import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 import timber.log.Timber;
 
+import static android.support.v7.widget.StaggeredGridLayoutManager.*;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class GifListActivity extends Activity implements GifListView {
 
+    private static final int SPAN_COUNT = 3;
     private final PublishSubject<Integer> loadMoreItems = PublishSubject.create();
     private EditText searchField;
     private GifListAdapter gifListAdapter;
@@ -71,7 +73,7 @@ public class GifListActivity extends Activity implements GifListView {
 
     private void initGifList(ViewGroup parent) {
         RecyclerView gifList = new RecyclerView(this);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, VERTICAL);
         gifList.setLayoutManager(layoutManager);
         gifListAdapter = new GifListAdapter(this);
         gifList.setAdapter(gifListAdapter);
